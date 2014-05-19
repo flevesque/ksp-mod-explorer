@@ -1,0 +1,39 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-3.dtd">
+<!--/*
+  User: Francois Levesque
+  Date: 5/18/14
+  Time: 8:00 PM
+*/-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>KSP Mod Explorer</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+</head>
+<body>
+
+	<div id="wrap">
+		<div class="container">
+			<div class="page-header" th:fragment="header">
+				<h1>KSP Mod Explorer
+					<small>A browsable repository of mods for Kerbal Space Program</small>
+				</h1>
+			</div>
+
+			<div>test</div>
+			<div id="push"></div>
+		</div>
+	</div>
+
+	<div id="footer" th:fragment="footer">
+		<div class="container">
+			<p class="credit">This is some awesome footer here</p>
+		</div>
+	</div>
+
+	<!--<div th:include="fragments/footer :: copy"></div>-->
+
+	<script type="application/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
