@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/decorators">
+
+    <!-- main theme, should apply by default -->
+    <decorator name="main" page="main_layout.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+
+    <!-- theme for the setup pages -->
+    <!--<decorator name="setup" page="setup_theme.jsp">-->
+        <!--<pattern>/setup*</pattern>-->
+    <!--</decorator>-->
+
+</decorators>
