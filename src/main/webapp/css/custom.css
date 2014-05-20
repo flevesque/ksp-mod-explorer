@@ -39,7 +39,11 @@ body {
 /* End Sticky footer styles
 ------------------------------------------------------------ */
 
-.container {
+.uppercase {
+    text-transform: uppercase;
+}
+
+#footer .container {
     width: auto;
 }
 

@@ -25,7 +25,7 @@
 			</div>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Link</a></li>
+				<li><a href="<%= request.getContextPath() %>/login"><spring:message code="global.header.login" /></a></li>
 			</ul>
 			<br />
 
