@@ -19,7 +19,7 @@
 
 	<div class="form-group ${status.error ? 'has-error' : ''}">
 		<div class="col-md-offset-4 col-md-4">
-			<spring:message code="${root}.placeholder.${name}" var="placeholder" />
+			<spring:message code="${root}.fields.${name}.placeholder" var="placeholder" />
 			<c:choose>
 				<c:when test="${password}">
 					<form:password path="${name}" placeholder="${placeholder}" cssClass="form-control" />
@@ -30,7 +30,7 @@
 			</c:choose>
 		</div>
 		<div class="col-md-4">
-			<form:errors path="${name}" class="help-block" />
+			<form:errors path="${name}" class="help-block bold" />
 		</div>
 	</div>
 </spring:bind>

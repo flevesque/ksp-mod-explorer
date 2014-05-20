@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
-  User: Francois Levesque
+  User: Francois Levesque <francois@critical-web.com>
   Date: 5/19/14
   Time: 9:01 AM
 --%>

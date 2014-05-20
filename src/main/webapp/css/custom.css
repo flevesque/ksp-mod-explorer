@@ -50,3 +50,7 @@ body {
 #footer .container .credit {
     margin: 20px 10px;
 }
+
+.bold {
+    font-weight: bold;
+}

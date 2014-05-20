@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by rezz on 5/18/14.
+ * @author Francois Levesque <francois@critical-web.com>
+ * @since 1.0
  */
 @Controller
 public class DefaultController {

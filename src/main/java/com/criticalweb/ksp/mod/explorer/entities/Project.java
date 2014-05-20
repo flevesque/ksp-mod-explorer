@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Francois Levesque on 5/18/14.
+ * @author Francois Levesque <francois@critical-web.com>
+ * @since 1.0
  */
 @Entity
 public class Project {

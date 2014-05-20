@@ -7,7 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by Francois Levesque on 5/19/14.
+ * @author Francois Levesque <francois@critical-web.com>
+ * @since 1.0
  */
 @MustMatch(first = "password", second = "confirmPassword", message = "{MustMatch.register.password}")
 public class Register {
@@ -22,7 +23,7 @@ public class Register {
 	private String confirmPassword;
 
 	@NotNull @NotEmpty
-	private String displayName;
+	private String displayname;
 
 	@NotNull @NotEmpty @Email
 	private String email;
@@ -51,12 +52,12 @@ public class Register {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public String getDisplayName() {
-		return displayName;
+	public String getDisplayname() {
+		return displayname;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	public void setDisplayname(String displayname) {
+		this.displayname = displayname;
 	}
 
 	public String getEmail() {

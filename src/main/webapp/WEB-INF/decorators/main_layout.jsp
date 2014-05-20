@@ -1,5 +1,5 @@
 <%--
-  User: Francois Levesque
+  User: Francois Levesque <francois@critical-web.com>
   Date: 5/19/14
   Time: 12:19 AM
 --%>

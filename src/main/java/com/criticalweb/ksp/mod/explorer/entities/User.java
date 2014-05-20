@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Francois Levesque on 5/18/14.
+ * @author Francois Levesque <francois@critical-web.com>
+ * @since 1.0
  */
 @Entity
 public class User {
@@ -14,7 +15,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String displayName;
+    private String displayname;
 
     private Collection<Project> projects;
 
@@ -36,12 +37,12 @@ public class User {
         this.email = email;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getDisplayname() {
+        return displayname;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setDisplayname(String displayname) {
+        this.displayname = displayname;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", targetEntity = Project.class)

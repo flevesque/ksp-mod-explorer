@@ -4,13 +4,14 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by Francois Levesque on 5/18/14.
+ * @author Francois Levesque <francois@critical-web.com>
+ * @since 1.0
  */
 @Entity
 public class Category {
 
 	private Long id;
-	private String displayName;
+	private String displayname;
 	private Collection<Project> projects;
 
 	@Id
@@ -23,12 +24,12 @@ public class Category {
 		this.id = id;
 	}
 
-	public String getDisplayName() {
-		return displayName;
+	public String getDisplayname() {
+		return displayname;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	public void setDisplayname(String displayname) {
+		this.displayname = displayname;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, targetEntity = Project.class)
