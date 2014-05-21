@@ -14,8 +14,10 @@ public class User {
 
     private String username;
     private String password;
+	private String salt;
     private String email;
     private String displayname;
+	private boolean active;
 
     private Collection<Project> projects;
 
@@ -69,4 +71,20 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }

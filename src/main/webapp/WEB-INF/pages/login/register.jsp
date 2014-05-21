@@ -35,12 +35,6 @@
 	<form:form class="form-horizontal" action="${pageContext.request.contextPath}/login/register" method="post" modelattribute="register" commandName="register">
 		<form:errors class="alert alert-danger bold col-md-offset-4 col-md-4" element="div"></form:errors>
 
-        <c:if test="${userExists}">
-            <div class="alert alert-danger bold col-md-offset-4 col-md-4">
-                <spring:message code="form.register.userexists" arguments="${register.email}" />
-            </div>
-        </c:if>
-
 		<spring:bind path="username">
 			<f:loginField name="username" status="${status}" root="form.register" />
 		</spring:bind>

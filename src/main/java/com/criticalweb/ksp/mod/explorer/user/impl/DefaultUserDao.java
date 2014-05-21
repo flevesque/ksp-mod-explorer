@@ -40,6 +40,23 @@ public class DefaultUserDao implements UserDao {
 	}
 
 	@Override
+	public User getUser(String username) throws EntityNotFoundException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Criteria criteria = session.createCriteria(User.class);
+
+		criteria.add(Restrictions.eq("username", username));
+
+		List<User> users = criteria.list();
+
+		if (users.size() == 0) {
+			throw new EntityNotFoundException("User could not be found.");
+		}
+
+		return users.get(0);
+	}
+
+	@Override
 	public void createUser(User user) {
 		Session session = sessionFactory.getCurrentSession();
 

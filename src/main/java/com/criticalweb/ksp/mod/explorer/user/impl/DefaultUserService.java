@@ -2,12 +2,16 @@ package com.criticalweb.ksp.mod.explorer.user.impl;
 
 import com.criticalweb.ksp.mod.explorer.entities.User;
 import com.criticalweb.ksp.mod.explorer.exceptions.ExpandedEntityExistsException;
+import com.criticalweb.ksp.mod.explorer.security.HashResponse;
+import com.criticalweb.ksp.mod.explorer.security.SecurityService;
 import com.criticalweb.ksp.mod.explorer.user.UserDao;
 import com.criticalweb.ksp.mod.explorer.user.UserService;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -27,6 +31,11 @@ public class DefaultUserService implements UserService {
 
 	@Resource
 	UserDao userDao;
+
+	@Resource
+	SecurityService securityService;
+
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultUserService.class);
 
 	@Override
 	@Transactional
@@ -54,6 +63,19 @@ public class DefaultUserService implements UserService {
 
 	@Override
 	@Transactional
+	public User getUserByLogin(String username, String password) throws EntityNotFoundException {
+
+		User user = userDao.getUser(username);
+
+		if (!user.getPassword().equals(securityService.hash(password, user.getSalt()))) {
+			throw new EntityNotFoundException("Invalid password!");
+		}
+
+		return user;
+	}
+
+	@Override
+	@Transactional
 	public User createNewUser(String username, String password, String email, String displayname) throws ExpandedEntityExistsException {
 
 		try {
@@ -76,10 +98,13 @@ public class DefaultUserService implements UserService {
 			// expected
 		}
 
+		HashResponse hashResponse = securityService.hash(password);
+
 		User user = new User();
 		user.setUsername(username);
 		user.setEmail(email);
-		user.setPassword(password);
+		user.setPassword(hashResponse.getHashed());
+		user.setSalt(hashResponse.getSalt());
 		user.setDisplayname(displayname);
 
 		userDao.createUser(user);

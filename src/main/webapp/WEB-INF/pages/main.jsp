@@ -11,7 +11,7 @@
 </head>
 <body>
 
-test
+<p>User in session: ${sessionScope.sessionUser.displayname}</p>
 
 </body>
 </html>
