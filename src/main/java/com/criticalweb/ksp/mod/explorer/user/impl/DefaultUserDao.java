@@ -6,6 +6,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -18,6 +20,8 @@ import java.util.List;
  */
 @Repository
 public class DefaultUserDao implements UserDao {
+
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultUserDao.class);
 
 	@Resource
 	SessionFactory sessionFactory;
