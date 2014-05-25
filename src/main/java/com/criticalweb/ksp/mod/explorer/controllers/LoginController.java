@@ -2,8 +2,10 @@ package com.criticalweb.ksp.mod.explorer.controllers;
 
 import com.criticalweb.ksp.mod.explorer.entities.User;
 import com.criticalweb.ksp.mod.explorer.exceptions.ExpandedEntityExistsException;
+import com.criticalweb.ksp.mod.explorer.exceptions.InvalidActivationKeyException;
 import com.criticalweb.ksp.mod.explorer.forms.Login;
 import com.criticalweb.ksp.mod.explorer.forms.Register;
+import com.criticalweb.ksp.mod.explorer.notifications.NotificationService;
 import com.criticalweb.ksp.mod.explorer.session.SessionUser;
 import com.criticalweb.ksp.mod.explorer.user.UserService;
 import org.slf4j.Logger;
@@ -11,10 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -30,6 +35,9 @@ public class LoginController {
 
 	@Resource
 	UserService userService;
+
+	@Resource
+	NotificationService notificationService;
 
 	@RequestMapping("")
 	public ModelAndView login() {
@@ -76,7 +84,13 @@ public class LoginController {
 		}
 
 		try {
-			User user = userService.createNewUser(register.getUsername(), register.getPassword(), register.getEmail(), register.getDisplayname());
+			User user = userService.createNewUser(register.getUsername(), register.getPassword(), register.getEmail(),
+					register.getDisplayname());
+
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+					.getRequest();
+
+			notificationService.sendRegistrationMessage(user, (String) request.getAttribute("baseUrl"));
 
 			ModelAndView mv = new ModelAndView("redirect:/login/registration-complete");
 			return mv;
@@ -93,7 +107,21 @@ public class LoginController {
 
 	}
 
-	@RequestMapping(value="/registration-complete")
+	@RequestMapping(value="/activate/{activationKey}", method = RequestMethod.GET)
+	public ModelAndView activate(@PathVariable String activationKey) {
+
+		ModelAndView mv = new ModelAndView("login/activate");
+
+		try {
+			userService.activateUser(activationKey);
+			mv.addObject("success", true);
+		} catch (InvalidActivationKeyException e) {
+			mv.addObject("success", false);
+		}
+		return mv;
+	}
+
+	@RequestMapping(value = "/registration-complete")
 	public ModelAndView registrationComplete() {
 		return new ModelAndView("login/registrationComplete");
 	}

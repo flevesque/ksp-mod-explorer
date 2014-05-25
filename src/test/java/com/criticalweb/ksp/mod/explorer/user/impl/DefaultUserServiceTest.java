@@ -1,7 +1,7 @@
 package com.criticalweb.ksp.mod.explorer.user.impl;
 
 import com.criticalweb.ksp.mod.explorer.entities.User;
-import com.criticalweb.ksp.mod.explorer.security.SecurityService;
+import com.criticalweb.ksp.mod.explorer.exceptions.InvalidActivationKeyException;
 import com.criticalweb.ksp.mod.explorer.user.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -47,6 +48,30 @@ public class DefaultUserServiceTest {
 
 		} catch (EntityNotFoundException e) {
 			fail("User not found!");
+		}
+
+	}
+
+	@Test(expected = InvalidActivationKeyException.class)
+	public void testActivateUserInvalidKey() throws InvalidActivationKeyException {
+		userService.activateUser("dummy");
+	}
+
+	@Test
+	public void testActivateUser() {
+		String username = "test-user-2";
+		String password = "123";
+
+		User user = userService.createNewUser(username, password, "test-user-email-2@critical-web.com", username);
+
+		String activationKey = user.getActivationkey();
+
+		try {
+			userService.activateUser(activationKey);
+			User u = userService.getUserById(user.getId());
+			assertTrue("User should be active!", u.isActive());
+		} catch (InvalidActivationKeyException e) {
+			fail(e.getMessage());
 		}
 
 	}

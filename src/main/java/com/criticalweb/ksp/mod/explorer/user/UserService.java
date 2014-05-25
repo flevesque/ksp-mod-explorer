@@ -2,6 +2,7 @@ package com.criticalweb.ksp.mod.explorer.user;
 
 import com.criticalweb.ksp.mod.explorer.entities.User;
 import com.criticalweb.ksp.mod.explorer.exceptions.ExpandedEntityExistsException;
+import com.criticalweb.ksp.mod.explorer.exceptions.InvalidActivationKeyException;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -20,5 +21,9 @@ public interface UserService {
 	public User getUserByLogin(String username, String password) throws EntityNotFoundException;
 
 	public User createNewUser(String username, String password, String email, String displayname) throws ExpandedEntityExistsException;
+
+	public String generateActivationKey(User user);
+
+	public void activateUser(String activationKey) throws InvalidActivationKeyException;
 
 }

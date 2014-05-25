@@ -1,6 +1,8 @@
 package com.criticalweb.ksp.mod.explorer.user.impl;
 
 import com.criticalweb.ksp.mod.explorer.entities.User;
+import com.criticalweb.ksp.mod.explorer.exceptions.InvalidActivationKeyException;
+import com.criticalweb.ksp.mod.explorer.generics.AbstractDao;
 import com.criticalweb.ksp.mod.explorer.user.UserDao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -19,9 +21,9 @@ import java.util.List;
  * @since 1.0
  */
 @Repository
-public class DefaultUserDao implements UserDao {
+public class DefaultUserDao extends AbstractDao<User> implements UserDao {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DefaultUserDao.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
 
 	@Resource
 	SessionFactory sessionFactory;
@@ -61,9 +63,20 @@ public class DefaultUserDao implements UserDao {
 	}
 
 	@Override
-	public void createUser(User user) {
+	public User getUserByActivationKey(String activationKey) throws InvalidActivationKeyException {
 		Session session = sessionFactory.getCurrentSession();
 
-		session.save(user);
+		Criteria criteria = session.createCriteria(User.class);
+
+		criteria.add(Restrictions.eq("activationkey", activationKey));
+
+		List<User> users = criteria.list();
+
+		if (users.size() == 0) {
+			throw new InvalidActivationKeyException("Invalid Activation Key!");
+		}
+
+		return users.get(0);
 	}
+
 }

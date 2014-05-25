@@ -18,6 +18,7 @@ public class User {
     private String email;
     private String displayname;
 	private boolean active;
+	private String activationkey;
 
     private Collection<Project> projects;
 
@@ -86,5 +87,13 @@ public class User {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getActivationkey() {
+		return activationkey;
+	}
+
+	public void setActivationkey(String activationkey) {
+		this.activationkey = activationkey;
 	}
 }

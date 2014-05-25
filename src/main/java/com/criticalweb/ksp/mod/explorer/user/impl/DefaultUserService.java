@@ -2,6 +2,7 @@ package com.criticalweb.ksp.mod.explorer.user.impl;
 
 import com.criticalweb.ksp.mod.explorer.entities.User;
 import com.criticalweb.ksp.mod.explorer.exceptions.ExpandedEntityExistsException;
+import com.criticalweb.ksp.mod.explorer.exceptions.InvalidActivationKeyException;
 import com.criticalweb.ksp.mod.explorer.security.HashResponse;
 import com.criticalweb.ksp.mod.explorer.security.SecurityService;
 import com.criticalweb.ksp.mod.explorer.user.UserDao;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -106,9 +108,28 @@ public class DefaultUserService implements UserService {
 		user.setPassword(hashResponse.getHashed());
 		user.setSalt(hashResponse.getSalt());
 		user.setDisplayname(displayname);
+		user.setActivationkey(generateActivationKey(user));
 
-		userDao.createUser(user);
+		userDao.save(user);
 
 		return user;
+	}
+
+	@Override
+	public String generateActivationKey(User user) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(user.getDisplayname()).append(new Date().toString());
+		return securityService.hash(sb.toString()).getHashed();
+	}
+
+	@Override
+	@Transactional
+	public void activateUser(String activationKey) throws InvalidActivationKeyException {
+		User user = userDao.getUserByActivationKey(activationKey);
+
+		user.setActivationkey(null);
+		user.setActive(true);
+
+		userDao.save(user);
 	}
 }
