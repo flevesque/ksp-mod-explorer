@@ -1,0 +1,5 @@
+<Context path="ksp-mod-explorer">
+    <ResourceLink name="jdbc/ksp-mod-explorer"
+                  global="jdbc/ksp-mod-explorer"
+                  type="javax.sql.DataSource"/>
+</Context>

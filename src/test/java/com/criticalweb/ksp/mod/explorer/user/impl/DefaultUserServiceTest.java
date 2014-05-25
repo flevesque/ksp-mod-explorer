@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
  * Created by Francois Levesque <francois@critical-web.com>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring-core.xml")
+@ContextConfiguration(locations = "classpath:spring-core-test.xml")
 @WebAppConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
