@@ -81,7 +81,7 @@ public class DefaultUserService implements UserService {
 	public User createNewUser(String username, String password, String email, String displayname) throws ExpandedEntityExistsException {
 
 		try {
-			User user = userDao.getUser(username, email, password);
+			User user = userDao.getUser(username, email, displayname);
 
 			ExpandedEntityExistsException e = new ExpandedEntityExistsException();
 
