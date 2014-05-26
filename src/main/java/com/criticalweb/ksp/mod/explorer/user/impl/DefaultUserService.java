@@ -124,12 +124,14 @@ public class DefaultUserService implements UserService {
 
 	@Override
 	@Transactional
-	public void activateUser(String activationKey) throws InvalidActivationKeyException {
+	public User activateUser(String activationKey) throws InvalidActivationKeyException {
 		User user = userDao.getUserByActivationKey(activationKey);
 
 		user.setActivationkey(null);
 		user.setActive(true);
 
 		userDao.save(user);
+
+		return user;
 	}
 }

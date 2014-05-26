@@ -24,6 +24,6 @@ public interface UserService {
 
 	public String generateActivationKey(User user);
 
-	public void activateUser(String activationKey) throws InvalidActivationKeyException;
+	public User activateUser(String activationKey) throws InvalidActivationKeyException;
 
 }

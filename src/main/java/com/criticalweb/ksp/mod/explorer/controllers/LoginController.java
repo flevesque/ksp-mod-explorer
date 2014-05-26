@@ -6,6 +6,7 @@ import com.criticalweb.ksp.mod.explorer.exceptions.InvalidActivationKeyException
 import com.criticalweb.ksp.mod.explorer.forms.Login;
 import com.criticalweb.ksp.mod.explorer.forms.Register;
 import com.criticalweb.ksp.mod.explorer.notifications.NotificationService;
+import com.criticalweb.ksp.mod.explorer.session.SessionService;
 import com.criticalweb.ksp.mod.explorer.session.SessionUser;
 import com.criticalweb.ksp.mod.explorer.user.UserService;
 import org.slf4j.Logger;
@@ -39,6 +40,9 @@ public class LoginController {
 	@Resource
 	NotificationService notificationService;
 
+	@Resource
+	SessionService sessionService;
+
 	@RequestMapping("")
 	public ModelAndView login() {
 		return new ModelAndView("login/login", "login", new Login());
@@ -54,11 +58,7 @@ public class LoginController {
 		try {
 			User user = userService.getUserByLogin(login.getUsername(), login.getPassword());
 
-			SessionUser sessionUser = new SessionUser();
-			sessionUser.setUsername(user.getUsername());
-			sessionUser.setDisplayname(user.getDisplayname());
-			sessionUser.setEmail(user.getEmail());
-			sessionUser.setActive(user.isActive());
+			SessionUser sessionUser = sessionService.setUser(user);
 
 			ModelAndView mv = new ModelAndView("redirect:/");
 			mv.addObject("sessionUser", sessionUser);
@@ -113,8 +113,10 @@ public class LoginController {
 		ModelAndView mv = new ModelAndView("login/activate");
 
 		try {
-			userService.activateUser(activationKey);
+			User user = userService.activateUser(activationKey);
 			mv.addObject("success", true);
+			mv.addObject("sessionUser", sessionService.setUser(user));
+			mv.addObject("user", user);
 		} catch (InvalidActivationKeyException e) {
 			mv.addObject("success", false);
 		}
